@@ -1,0 +1,76 @@
+{% block content %}
+
+<div id="wrapper">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div id="message" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background: rgba(32,56,72,0.97); border-bottom: 2px solid #f0ad4e;">
+                        <button type="button" class="close" data-dismiss="modal" style="color: #5bc0de"> &times; </button>
+                        <h4 id="employeeTitle" class="modal-title text-center" style="color: #5bc0de;"> 
+                            Direct Message
+                        </h4>
+                    </div>
+                    <form action="" method="POST" id="submitMessage" role="form">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group" id="divName">
+                                        <input style="color: #5bc0de; background: transparent; border: none; border-bottom: 1px solid rgba(32,56,72,0.97); -webkit-box-shadow: none; box-shadow: none; border-radius: 0;" class="form-control" placeholder="Full Name" id="name" type="text" required="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group" id="divEmail">
+                                        <input style="color: #5bc0de; background: transparent; border: none; border-bottom: 1px solid rgba(32,56,72,0.97); -webkit-box-shadow: none; box-shadow: none; border-radius: 0;" class="form-control" placeholder="E-mail" id="email" type="text" required="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group" id="divMessage">
+                                        <input style="color: #5bc0de; background: transparent; border: none; border-bottom: 1px solid rgba(32,56,72,0.97); -webkit-box-shadow: none; box-shadow: none; border-radius: 0;" class="form-control" placeholder="Write message here!" id="directMessage" maxlength="500" type="text" required="true">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="border-top: 2px solid #f0ad4e">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <button type="submit" style="color: white; background: rgba(32,56,72,0.97); width: 100%; box-shadow: 5px 5px 8px #888888;" class="btn btn-large">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<script>
+    $('#submitMessage').submit(function(b) {
+        b.preventDefault();
+        
+        var formData = {
+            'name': $('#name')["0"]["value"],
+            'email': $('#email')["0"]["value"],
+            'message': $('#directMessage')["0"]["value"]
+        };
+
+        return $.ajax({
+            url: "/getMessage",
+            type: "POST",
+            data: JSON.stringify(formData),
+            contentType: "application/json;charset=UTF-8",
+            success: function(list) {
+                $("#divName").load(document.URL + ' #divName');
+                $("#divEmail").load(document.URL + ' #divEmail');
+                $("#divMessage").load(document.URL + ' #divMessage');
+            }
+        });
+    });
+</script>
