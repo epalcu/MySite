@@ -19,9 +19,9 @@
     <div class="row">
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
         <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="text-align: center">
-            <h1 class="page-header" style="font-size: 8vh; letter-spacing: .2em; text-align: center; font-family: 'Times New Roman', Times, serif; color: #5bc0de">
+            <h1 id="pageTitle" class="page-header" style="font-size: 8vh; letter-spacing: .2em; text-align: center; font-family: 'Times New Roman', Times, serif; color: #5bc0de">
                 Ellias 
-                <embed src="static/images/me3.jpg" style="margin-left: -15px; border-radius: 60px" width="75vh" height="75vh">
+                <embed id="pagePic" src="static/images/me3.jpg" style="margin-left: -15px; border-radius: 60px" width="75vh" height="75vh">
                 Palcu
             </h1>
         </div>
@@ -31,7 +31,7 @@
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: center">
             <form action="/resume">
-                <button data-toggle="modal" data-target="#resume" type="button" class="btn btn-secondary btn-lg" style="font-size: 2vh; letter-spacing: .3em; font-family: 'Times New Roman', Times, serif; background: rgba(32,56,72,0.97); width: 100%; color: white; border: 2px solid white; box-shadow: 5px 5px 8px #888888;">RESUME</button>
+                <button id="resumeBtn" data-toggle="modal" data-target="#resume" type="button" class="btn btn-secondary btn-lg" style="font-size: 15px; letter-spacing: .3em; font-family: 'Times New Roman', Times, serif; background: rgba(32,56,72,0.97); width: 100%; color: white; border: 2px solid white; box-shadow: 5px 5px 8px #888888;">RESUME</button>
             </form>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"></div>
@@ -106,13 +106,13 @@
     <br><br>
     <div class="row">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: center">
-            <button id="timelineBtn" type="button" class="btn btn-secondary btn-lg" style="font-size: 2vh; letter-spacing: .2em; font-family: 'Times New Roman', Times, serif; background: rgba(32,56,72,0.97); width: 100%; color: white; border: 2px solid white;  box-shadow: 5px 5px 8px #888888;">TIMELINE</button>
+            <button id="timelineBtn" type="button" class="btn btn-secondary btn-lg" style="font-size: 13px; letter-spacing: .2em; font-family: 'Times New Roman', Times, serif; background: rgba(32,56,72,0.97); width: 100%; color: white; border: 2px solid white;  box-shadow: 5px 5px 8px #888888;">TIMELINE</button>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: center">
-            <button id="projectBtn" type="button" class="btn btn-secondary btn-lg" style="font-size: 2vh; letter-spacing: .2em; font-family: 'Times New Roman', Times, serif; background: rgba(32,56,72,0.97); width: 100%; color: white; border: 2px solid white;  box-shadow: 5px 5px 8px #888888;">PROJECTS</button>
+            <button id="projectBtn" type="button" class="btn btn-secondary btn-lg" style="font-size: 13px; letter-spacing: .2em; font-family: 'Times New Roman', Times, serif; background: rgba(32,56,72,0.97); width: 100%; color: white; border: 2px solid white;  box-shadow: 5px 5px 8px #888888;">PROJECTS</button>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: center">
-            <button id="goalBtn" type="button" class="btn btn-secondary btn-lg" style="font-size: 2vh; letter-spacing: .2em; font-family: 'Times New Roman', Times, serif; background: rgba(32,56,72,0.97); width: 100%; color: white; border: 2px solid white;  box-shadow: 5px 5px 8px #888888;">GOALS</button>
+            <button id="goalBtn" type="button" class="btn btn-secondary btn-lg" style="font-size: 13px; letter-spacing: .2em; font-family: 'Times New Roman', Times, serif; background: rgba(32,56,72,0.97); width: 100%; color: white; border: 2px solid white;  box-shadow: 5px 5px 8px #888888;">GOALS</button>
         </div>
     </div>
     <br><br>
@@ -144,6 +144,43 @@
 
     function show(element) {
         element.show();
+    }
+
+    // Just a function to make things a little more screen resolution responsive
+    function resizeObjects() {
+        var windowWidth = (+window.getComputedStyle(document.body).width.replace(/px/,''));
+        var windowHeight = (+window.getComputedStyle(document.body).height.replace(/px/,''));
+
+        var setTitleSize = function(size) {
+            $('#pageTitle')["0"]["style"]["fontSize"] = size;
+        }
+
+        var setBtnSizes = function(size) {
+            $('#resumeBtn')["0"]["style"]["fontSize"] = size;
+            $('#timelineBtn')["0"]["style"]["fontSize"] = size;
+            $('#projectBtn')["0"]["style"]["fontSize"] = size;
+            $('#goalBtn')["0"]["style"]["fontSize"] = size;
+        }
+
+        if (windowHeight >= 976) {
+            if (windowWidth <= 1024 && windowWidth >= 553) setTitleSize("5vh");
+            else if (windowWidth < 553) setTitleSize("3vh");
+        }
+        else {
+            if (windowWidth >= 820) {
+                setTitleSize("8vh");
+                setBtnSizes("15px");
+            }
+            else if (windowWidth < 820 && windowWidth >= 600) setTitleSize("5vh");
+            else if (windowWidth < 600 && windowWidth >= 400) {
+                setTitleSize("3vh");
+                setBtnSizes("10px");
+            }
+            else {
+                setTitleSize("3vh");
+                setBtnSizes("7px");
+            }
+        }
     }
 
     $('#timelineBtn').on('click', function(e) {
@@ -198,6 +235,7 @@
     });
 
     window.onload = function() {
+        resizeObjects();
         hide($('#timeline'));
         hide($('#projects'));
         hide($('#goals'));
@@ -206,5 +244,9 @@
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip(); 
     });
+
+    window.onresize = function() {
+        resizeObjects();
+    }
 
 </script>
