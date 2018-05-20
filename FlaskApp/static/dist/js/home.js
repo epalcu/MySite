@@ -55,6 +55,14 @@ function resizeObjects() {
     }
 }
 
+function resizeResume() {
+    var windowWidth = (+window.getComputedStyle(document.body).width.replace(/px/,''));
+
+    if (windowWidth < 500) $('#pdfResume')["0"]["width"] = "90%";
+    else if (windowWidth < 1000) $('#pdfResume')["0"]["width"] = "75%";
+    else $('#pdfResume')["0"]["width"] = "60%";
+}
+
 $('#timelineBtn').on('click', function(e) {
     if ($('#timelineBtn').val() != "Active") {
         setActive($('#timelineBtn'));
@@ -106,7 +114,14 @@ $('#goalBtn').on('click', function(e) {
     }
 });
 
+$('#resumeBtn').on('click', function(e) {
+    e.preventDefault();
+
+    console.log($('#pdfResume'))
+})
+
 window.onload = function() {
+    resizeResume();
     resizeObjects();
     hide($('#timeline'));
     hide($('#projects'));
@@ -118,5 +133,6 @@ $(document).ready(function(){
 });
 
 window.onresize = function() {
+    resizeResume();
     resizeObjects();
 }
