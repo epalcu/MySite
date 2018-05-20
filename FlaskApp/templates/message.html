@@ -16,14 +16,14 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group" id="divName">
-                                        <input style="color: #5bc0de; background: transparent; border: none; border-bottom: 1px solid rgba(32,56,72,0.97); -webkit-box-shadow: none; box-shadow: none; border-radius: 0;" class="form-control" placeholder="Full Name" id="name" type="text" required="true">
+                                        <input style="color: #5bc0de; background: transparent; border: none; border-bottom: 1px solid rgba(32,56,72,0.97); -webkit-box-shadow: none; box-shadow: none; border-radius: 0;" class="form-control" placeholder="Full Name" id="name" maxlength="15" type="text" required="true">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group" id="divEmail">
-                                        <input style="color: #5bc0de; background: transparent; border: none; border-bottom: 1px solid rgba(32,56,72,0.97); -webkit-box-shadow: none; box-shadow: none; border-radius: 0;" class="form-control" placeholder="E-mail" id="email" type="text" required="true">
+                                        <input style="color: #5bc0de; background: transparent; border: none; border-bottom: 1px solid rgba(32,56,72,0.97); -webkit-box-shadow: none; box-shadow: none; border-radius: 0;" class="form-control" placeholder="E-mail" id="email" maxlength="30" type="text" required="true">
                                     </div>
                                 </div>
                             </div>
@@ -51,26 +51,4 @@
 
 {% endblock %}
 
-<script>
-    $('#submitMessage').submit(function(b) {
-        b.preventDefault();
-        
-        var formData = {
-            'name': $('#name')["0"]["value"],
-            'email': $('#email')["0"]["value"],
-            'message': $('#directMessage')["0"]["value"]
-        };
-
-        return $.ajax({
-            url: "/getMessage",
-            type: "POST",
-            data: JSON.stringify(formData),
-            contentType: "application/json;charset=UTF-8",
-            success: function(list) {
-                $("#divName").load(document.URL + ' #divName');
-                $("#divEmail").load(document.URL + ' #divEmail');
-                $("#divMessage").load(document.URL + ' #divMessage');
-            }
-        });
-    });
-</script>
+<script src="static/dist/js/message.js"></script>

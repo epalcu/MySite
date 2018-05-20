@@ -1,12 +1,18 @@
-import time
-from os import system, path
-from datetime import datetime
-from base64 import b64encode, b64decode, b16encode, b16decode
+# import dbTables as dt
+# import dbFunctions as df
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.event import listens_for
 from flask import Flask, render_template, redirect, request, flash, Markup, session, jsonify, url_for
 
 application = app = Flask(__name__)
+# application.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://"
+# application.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# application.config['SQLALCHEMY_ECHO'] = False
+# dt.db.app = application
+# dt.db.init_app(application)
+
+# dt.db.create_all()
+
+# dbUtils = df.Functions(dt.db)
 
 '''
 ##################################################################################################
@@ -15,11 +21,11 @@ application = app = Flask(__name__)
 '''
 @application.route("/")
 def index():
-    return redirect("/home")
+    return redirect("/home"), 302
 
 @application.route("/home")
 def home():
-    return render_template("home.html")
+    return render_template("home.html"), 200
 
 @application.route("/getMessage", methods=['POST'])
 def getMessage():
@@ -27,9 +33,9 @@ def getMessage():
     email = request.json['email']
     message = request.json['message']
 
-    #TODO: Add message to database now!
+    dbUtils.addMessage(name, email, message)
 
-    return jsonify("success")
+    return jsonify("success"), 200
 
 ###################################
 # Main function where app is run. #
