@@ -1,18 +1,10 @@
-# import dbTables as dt
-# import dbFunctions as df
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template, redirect, request, flash, Markup, session, jsonify, url_for
+import dbFunctions as df
+from firebase import firebase
+from flask import Flask, render_template, redirect, request, flash, jsonify, make_response
 
 application = app = Flask(__name__)
-# application.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://"
-# application.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# application.config['SQLALCHEMY_ECHO'] = False
-# dt.db.app = application
-# dt.db.init_app(application)
 
-# dt.db.create_all()
-
-# dbUtils = df.Functions(dt.db)
+dbUtils = df.Functions()
 
 '''
 ##################################################################################################
@@ -21,21 +13,26 @@ application = app = Flask(__name__)
 '''
 @application.route("/")
 def index():
-    return redirect("/home"), 302
+    return make_response(redirect("/home"), 302)
 
 @application.route("/home")
 def home():
-    return render_template("home.html"), 200
+    return make_response(render_template("home.html"), 200)
 
-@application.route("/getMessage", methods=['POST'])
-def getMessage():
+@application.route("/sendMessage", methods=['POST'])
+def sendMessage():
     name = request.json['name']
     email = request.json['email']
     message = request.json['message']
 
-    dbUtils.addMessage(name, email, message)
-
-    return jsonify("success"), 200
+    if dbUtils.addMessage(name, email, message):
+        status = "Yay! Message has successfully been sent!"
+        code = 200
+    else:
+        status = "Oh no, something's wrong! Your message didn't send!"
+        code = 500
+    
+    return make_response(jsonify(message=status), code)
 
 ###################################
 # Main function where app is run. #
@@ -43,7 +40,7 @@ def getMessage():
 if __name__ == "__main__":
     public = "0.0.0.0"
     local = "127.0.0.1"
-    # app.secret_key = "something"
+    app.secret_key = "something"
     
-    application.run(debug=True, host=public)
+    application.run(debug=False, host=public)
 

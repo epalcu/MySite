@@ -1,15 +1,25 @@
-import dbTables as dt
-from flask_sqlalchemy import SQLAlchemy
+import time
+from firebase import firebase as fb
     
 class Functions():
-    def __init__(self, database):
-        self.db = database
-        self.session = self.db.session
+    def __init__(self):
+        secret = ""
+        url = ""
+        username = ""
+
+        auth = fb.FirebaseAuthentication(secret, username, True, True)
+
+        self.fb = fb.FirebaseApplication(url, auth)
 
     def addMessage(self, name, email, message):
-        m = dt.Message(name=name, email=email, message=message)
-            
-        self.session.add(m)
-        self.session.commit()
+        timestamp = int(time.time())
+        path = '/Messages/{0}'.format(timestamp)
 
-        return True
+        data = { 'name': name, 'email': email, 'message': message }
+
+        try:
+            p = self.fb.post(path, data)
+            print(p)
+            return True
+        except:
+            return False
