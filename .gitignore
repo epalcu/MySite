@@ -1,7 +1,6 @@
 *.zip
 
 ellias-site/static/scss/
-ellias-site/static/vendor/
 bin/
 include/
 man/
