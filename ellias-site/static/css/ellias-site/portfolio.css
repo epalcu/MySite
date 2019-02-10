@@ -1,0 +1,8 @@
+.img-fluid.portfolio-img-fluid {
+    height: 50vh;
+    opacity: 0.85;
+}
+
+#portfolio {
+    background-color: #f6f6f6;
+}

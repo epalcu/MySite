@@ -1,0 +1,10 @@
+.contact {
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #ecb807;
+}
+
+#sendMessageButton {
+    color: rgba(32,56,72,0.97); 
+    background-color: none;
+}

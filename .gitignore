@@ -1,2 +1,14 @@
 *.zip
 
+ellias-site/static/scss/
+ellias-site/static/vendor/
+bin/
+include/
+man/
+lib/
+london.jpg
+sandNew.jpg
+soccer.jpg
+
+
+

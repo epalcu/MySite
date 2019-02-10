@@ -1,0 +1,25 @@
+#sidebar-wrapper {
+    /* background: #5bc0de; */
+    background: rgba(32,56,72,0.97);
+    font-family: 'Source Sans Pro', sans-serif;
+    opacity: 1;
+    z-index: 100;
+}
+
+#sidebarPic {
+    width: 21%; 
+    height: 100%; 
+    margin-right: 10px;
+}
+
+.menu-toggle:hover, .scroll-to-top:hover {
+    background: rgba(32,56,72,0.97);
+}
+
+.menu-toggle, .scroll-to-top {
+    background: rgba(32,56,72,0.97);
+}
+
+.mb-5 {
+    color: rgba(32,56,72,0.97);
+}

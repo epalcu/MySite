@@ -1,0 +1,33 @@
+footer.footer .social-link-sm {
+  display: table-cell;
+  vertical-align: center;
+  height: 3rem;
+  width: 3rem;
+  line-height: 3rem;
+  font-size: 1rem;
+  background-color: #1D809F;
+  -webkit-transition: background-color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out;
+  -webkit-box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.icon-social-linkedin:before {
+  height: 2rem;
+  width: 2rem;
+}
+
+.icon-social-github {
+  height: 2rem;
+  width: 2rem;
+}
+
+.icon-social-facebook {
+  height: 2rem;
+  width: 2rem;
+}
+
+.icon-social-instagram {
+  height: 2rem;
+  width: 2rem;
+}

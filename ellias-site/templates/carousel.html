@@ -1,0 +1,67 @@
+<link href="{{ url_for('static', filename='css/ellias-site/carousel.css') }}" rel="stylesheet">
+
+<div id="carousel-home" class="carousel slide" data-ride="carousel">
+
+    <!-- Indicators -->
+    <ul class="carousel-indicators">
+        <li data-target="#carousel-home" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-home" data-slide-to="1"></li>
+        <li data-target="#carousel-home" data-slide-to="2"></li>
+    </ul>
+    
+    <!-- The slideshow -->
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="carousel-img img-fluid" src="{{ url_for('static', filename='img/luca-micheli.jpg') }}">
+            <div id="carousel-travel" class="carousel-caption">
+                <h1 class="carousel-title-travel"><strong>Travel</strong></h1>
+                <p class="carousel-small-travel">
+                    <i>Czech Republic, England, France, 
+                        <br> 
+                        Hungary, Ireland, Italy,  
+                        <br>
+                        Jamaica, Mexico, Romania, 
+                        <br>
+                        Scotland, Spain
+                    </i>
+                </p>
+                <!-- <p><br><br><br><br><br><br><br><br><br><br></p> -->
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="carousel-img img-fluid" src="{{ url_for('static', filename='img/outreach.jpg') }}">
+            <div class="carousel-caption">
+                <h1 class="carousel-title"><strong>Outreach</strong></h1>
+                <p class="carousel-small">Non-Profits: <i>Made Man Movement, Bold Idea</i></p>
+                <p class="carousel-small">Organization(s): <i>University of Tennessee, Knoxville</i></p>
+                <p class="carousel-small">Activites: <i>Instructing, Mentoring, Professional Development</i></p>
+            </div>
+        </div>
+        <!-- <div class="carousel-item">
+            <img class="carousel-img img-fluid" src="{{ url_for('static', filename='img/soccer.jpg') }}">
+            <div class="carousel-caption">
+                <h1 class="carousel-title"><strong>The Beautiful Game</strong></h1>
+                <p>Teams: <i>Real Madrid, Portugal, Romania</i></p>
+            </div>
+        </div> -->
+        <div class="carousel-item">
+            <img class="carousel-img img-fluid" src="{{ url_for('static', filename='img/computer.jpg') }}">
+            <div class="carousel-caption">
+                <h2 class="carousel-title"><strong>Computer Engineering</strong></h1>
+                <p class="carousel-small">Skills: <i>Embedded Software, Full-Stack Dev, AWS</i></p>
+                <p class="carousel-small">Languages: <i>C/C++, NodeJS, Python</i></p>
+                <!-- <pr><br></pr> -->
+                <!-- <p><br><br><br></p> -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Left and right controls -->
+    <a class="carousel-control-prev" href="#carousel-home" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#carousel-home" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </a>
+    
+</div>
