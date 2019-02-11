@@ -25,9 +25,9 @@ $('#contactForm').submit(function(e) {
         'email': $('#email').val(),
         'message': $('#message').val()
     }
-
+    
     return $.ajax({
-        url: '/dev/contact/message', 
+        url: '/contact/message', 
         type: 'POST',
         data: JSON.stringify(data),
         contentType: 'application/json;charset=UTF-8',

@@ -15,5 +15,22 @@
                 "Resource": "arn:aws:secretsmanager:us-east-1:938616719349:secret:elliasWebsiteEmailCreds-NEfJrW"
             }
         ]
+    },
+    "prod": {
+        "app_function": "app.app",
+	    "aws_region": "us-east-1", 
+        "profile_name": "dev", 
+        "project_name": "ellias-website", 
+        "runtime": "python2.7", 
+        "s3_bucket": "ep-us-east-1-prod-s3-ellias-website",
+        "extra_permissions": [
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "secretsmanager:GetSecretValue"
+                ], 
+                "Resource": "arn:aws:secretsmanager:us-east-1:938616719349:secret:elliasWebsiteEmailCreds-NEfJrW"
+            }
+        ]
     }
 }

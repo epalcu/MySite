@@ -1,49 +1,85 @@
-# import dbFunctions as df
 import json
 import boto3
 from flask_mail import Mail, Message
 from flask import Flask, render_template, redirect, request, flash, jsonify, make_response
 
+
+'''
+##################################################################################################
+#################################### Begin Application Globals ###################################
+##################################################################################################
+{'''
+
+
 app = Flask(__name__)
 
-mail = Mail(app)
 
-client = boto3.client(
-    service_name='secretsmanager',
-    region_name='us-east-1'
-)
+'''}
+##################################################################################################
+##################################### End Application Globals ####################################
+##################################################################################################
+'''
 
-creds = json.loads(client.get_secret_value(
-    SecretId='elliasWebsiteEmailCreds'
-)['SecretString'])
-
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = creds['username']
-app.config['MAIL_PASSWORD'] = creds['password']
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-
-mail = Mail(app)
 
 '''
 ##################################################################################################
-###################################### Application Routes ########################################
+##################################### Begin Application Pages ####################################
 ##################################################################################################
-'''
+{'''
+
+
 @app.route("/")
 def index():
     return make_response(redirect("/home"), 302)
 
+
 @app.route("/home")
 def home():
     return make_response(render_template("home.html"), 200)
+
+
+'''}
+##################################################################################################
+###################################### End Application Pages #####################################
+##################################################################################################
+'''
+
+
+'''
+##################################################################################################
+##################################### Begin Application Routes ###################################
+##################################################################################################
+{'''
+
+def configureMailClient():
+    print app
+    client = boto3.client(
+        service_name='secretsmanager',
+        region_name='us-east-1'
+    )
+
+    creds = json.loads(client.get_secret_value(
+        SecretId='elliasWebsiteEmailCreds'
+    )['SecretString'])
+
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USERNAME'] = creds['username']
+    app.config['MAIL_PASSWORD'] = creds['password']
+    app.config['MAIL_USE_TLS'] = False
+    app.config['MAIL_USE_SSL'] = True
+
+    return Mail(app)
+
 
 @app.route('/contact/message', methods=['POST'])
 def contactMessage():
     name = request.json['name']
     email = request.json['email']
     message = request.json['message']
+
+    # Configure our mail client
+    mail = configureMailClient()
 
     # E-mail the user
     msg = Message(
@@ -56,6 +92,7 @@ def contactMessage():
 
     try :
         mail.send(msg)
+
         message = "Message successfully sent!"
         code = 200
     except:
@@ -68,6 +105,14 @@ def contactMessage():
             'statusCode': code
         }
     ), code)
+
+
+'''}
+##################################################################################################
+###################################### End Application Routes ####################################
+##################################################################################################
+'''
+
 
 ###################################
 # Main function where app is run. #

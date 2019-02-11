@@ -23,3 +23,7 @@
 .mb-5 {
     color: rgba(32,56,72,0.97);
 }
+
+.sidebar-brand {
+    border-bottom: 1px solid #ecb807;
+}
