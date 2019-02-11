@@ -6,3 +6,11 @@
 #portfolio {
     background-color: #f6f6f6;
 }
+
+@media (min-width: 992px) {
+    .portfolio-item:hover .caption {
+        background-color: #ecb807;
+        -webkit-clip-path: inset(2rem);
+        clip-path: inset(2rem);
+    }
+}

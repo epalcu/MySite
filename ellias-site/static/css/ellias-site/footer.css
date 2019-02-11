@@ -5,14 +5,14 @@ footer.footer .social-link-sm {
   width: 3rem;
   line-height: 3rem;
   font-size: 1rem;
-  background-color: #1D809F;
+  background-color: rgba(32,56,72,0.97);
   -webkit-transition: background-color 0.15s ease-in-out;
   transition: background-color 0.15s ease-in-out;
   -webkit-box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
-.icon-social-linkedin:before {
+.icon-social-linkedin {
   height: 2rem;
   width: 2rem;
 }
@@ -30,4 +30,8 @@ footer.footer .social-link-sm {
 .icon-social-instagram {
   height: 2rem;
   width: 2rem;
+}
+
+#copyright {
+  color: #ecb807 !important;
 }
