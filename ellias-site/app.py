@@ -122,6 +122,6 @@ if __name__ == "__main__":
     local = "127.0.0.1"
     app.secret_key = "something"
     
-    # app.run(debug=True, host=local)
-    app.run()
+    app.run(host=public, threaded=True)
+    # app.run()
 
