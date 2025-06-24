@@ -65,13 +65,15 @@ jobs:
             }
             const version = versionMatch[1];
 
-            // Extract Release Notes section from PR body using flexible regex
+            // Extract Release Notes from the bump version PR body
+            // The bump-version.yml creates PRs with format:
+            // **Release Notes**:
+            // {actual notes}
             const body = bumpPr.body || "";
-
-            const releaseNotesMatch = body.match(
-              /(?:(?:#{2,3}|\*\*|__)?\s*Release\s*Notes\s*(?::|-)?(?:\*\*|__)?\s*)\n([\s\S]*?)(?=\n(?:#{2,3}|[*_]{2}|\Z))/i
-            );
-
+            
+            // Match the specific format used by bump-version.yml
+            const releaseNotesMatch = body.match(/\*\*Release Notes\*\*:\s*\n([\s\S]*?)$/);
+            
             const releaseNotes = releaseNotesMatch ? releaseNotesMatch[1].trim() : "No release notes found in PR.";
 
             // 2. Check if a release with tag 'v{version}' already exists
