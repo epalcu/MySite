@@ -104,7 +104,10 @@ jobs:
         with:
           tag_name: v${{ steps.find_pr_and_release.outputs.version }}
           name: v${{ steps.find_pr_and_release.outputs.version }}
-          body: ${{ steps.find_pr_and_release.outputs.pr_body }}
+          body: |
+            ## Release Notes
+            
+            ${{ steps.find_pr_and_release.outputs.pr_body }}
           generate_release_notes: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
