@@ -1,17 +1,16 @@
 name: Create Release
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
     paths:
       - '**/*.wixproj'
-  workflow_dispatch:
 
 jobs:
   create_release:
     runs-on: ubuntu-latest
-
     permissions:
       contents: write
       pull-requests: read
@@ -31,48 +30,79 @@ jobs:
           echo "Version from .wixproj: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Get merged PR with title starting 'Bump version'
-        id: pr
+      - name: Find last merged PR with 'Bump Version' in title and check for existing release
+        id: find_pr_and_release
         uses: actions/github-script@v7
         with:
+          result-encoding: string
           script: |
-            const { data: commits } = await github.rest.repos.listCommits({
+            // 1. Find last merged PR with 'Bump Version' in title (case-insensitive)
+            const prs = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              sha: context.sha,
-              per_page: 5
+              state: 'closed',
+              base: 'master',
+              sort: 'updated',
+              direction: 'desc',
+              per_page: 20,
             });
 
-            const lastCommit = commits[0];
-
-            const { data: pulls } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              commit_sha: lastCommit.sha
-            });
-
-            const matched = pulls.find(pr =>
+            const bumpPr = prs.data.find(pr =>
               pr.merged_at &&
-              pr.title.toLowerCase().startsWith("bump version")
+              pr.title.toLowerCase().includes('bump version')
             );
 
-            if (!matched) {
-              core.setFailed("❌ No merged PR with title starting 'Bump version' found.");
+            if (!bumpPr) {
+              core.setFailed("No merged PR with 'Bump Version' found.");
               return;
             }
 
-            const body = matched.body || "";
-            const match = body.match(/(?:(?:#{2,3}|\*\*|__)?\s*Release\s*Notes\s*(?::|-)?(?:\*\*|__)?\s*)\n([\s\S]*?)(?=\n(?:#{2,3}|[*_]{2}|\Z))/i);
-            const releaseNotes = match ? match[1].trim() : "No release notes found in PR.";
+            // Extract version number from PR title (expecting format like "Bump version to 1.2.3")
+            const versionMatch = bumpPr.title.match(/(\d+\.\d+\.\d+)/);
+            if (!versionMatch) {
+              core.setFailed("Could not extract version from PR title.");
+              return;
+            }
+            const version = versionMatch[1];
 
-            core.setOutput("notes", releaseNotes);
+            // Extract Release Notes section from PR body using flexible regex
+            const body = bumpPr.body || "";
 
+            const releaseNotesMatch = body.match(
+              /(?:(?:#{2,3}|\*\*|__)?\s*Release\s*Notes\s*(?::|-)?(?:\*\*|__)?\s*)\n([\s\S]*?)(?=\n(?:#{2,3}|[*_]{2}|\Z))/i
+            );
+
+            const releaseNotes = releaseNotesMatch ? releaseNotesMatch[1].trim() : "No release notes found in PR.";
+
+            // 2. Check if a release with tag 'v{version}' already exists
+            try {
+              await github.rest.repos.getReleaseByTag({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag: `v${version}`
+              });
+              core.info(`Release v${version} already exists, skipping release creation.`);
+              core.setOutput('release_exists', 'true');
+            } catch (error) {
+              if (error.status === 404) {
+                core.info(`No existing release for v${version}. Proceeding to create.`);
+                core.setOutput('release_exists', 'false');
+                core.setOutput('version', version);
+                core.setOutput('pr_body', releaseNotes);
+              } else {
+                throw error;
+              }
+            }
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Release
+        if: steps.find_pr_and_release.outputs.release_exists == 'false'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ env.VERSION }}
-          name: v${{ env.VERSION }}
-          body: ${{ steps.pr.outputs.notes }}
+          tag_name: v${{ steps.find_pr_and_release.outputs.version }}
+          name: v${{ steps.find_pr_and_release.outputs.version }}
+          body: ${{ steps.find_pr_and_release.outputs.pr_body }}
+          generate_release_notes: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
