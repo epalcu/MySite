@@ -93,8 +93,8 @@ jobs:
                 throw error;
               }
             }
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Release
         if: steps.find_pr_and_release.outputs.release_exists == 'false'
